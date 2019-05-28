@@ -17,8 +17,11 @@ int main(int argc, char* argv[])
 	//Matrix to store each frame of the webcam feed
 	Mat cameraFeed;
 
-	Mat HSV;
 	//Matrix to store HSV version of the image
+	Mat HSV;
+
+	//Matrix to show filtered green ball
+	Mat filtered;
 
 	//video capture object to acquire webcam feed
 	VideoCapture capture;
@@ -37,11 +40,13 @@ int main(int argc, char* argv[])
 		//converting frames from rgb(BGR) to hsv, then saving them to HSV Mat object
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
 
+		inRange(HSV, Scalar(47, 114, 0), Scalar(72, 256, 256), filtered);
 
 
 		//showing frame
-		imshow("Kamera", cameraFeed);
-		imshow("Kamera HSV", HSV);
+		imshow("Camera", cameraFeed);
+		imshow("Camera HSV", HSV);
+		imshow("Filtered Camera", filtered);
 
 		
 		waitKey(30);
