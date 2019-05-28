@@ -1,0 +1,2 @@
+﻿  Source.cpp
+c:\users\jaruzzzelski\documents\visual studio 2015\projects\opencv_projekt\opencv_projekt\source.cpp(7): fatal error C1083: Cannot open include file: 'opencv2/imgproc.hpp': No such file or directory
