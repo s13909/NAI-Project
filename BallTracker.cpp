@@ -1,5 +1,3 @@
-// Projekt NAI.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <sstream>
 #include <string>
@@ -19,28 +17,33 @@ int main(int argc, char* argv[])
 	//Matrix to store each frame of the webcam feed
 	Mat cameraFeed;
 
+	Mat HSV;
+	//Matrix to store HSV version of the image
+
 	//video capture object to acquire webcam feed
 	VideoCapture capture;
 
-	//open capture object at location zero (default location for webcam)
+	//open capture
 	capture.open(0);
-	//set height and width of capture frame
+	//defining width and height of capture
 	capture.set(CV_CAP_PROP_FRAME_WIDTH, 600);
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, 800);
-	//start an infinite loop where webcam feed is copied to cameraFeed matrix
-	//all of our operations will be performed within this loop
+
+	//infinite loop for displaying webcam
 	while (1) {
-		//store image to matrix
+		//saving frame from cam to mat
 		capture.read(cameraFeed);
-		//convert frame from BGR to HSV colorspace
-		//show frames 
 
+		//converting frames from rgb(BGR) to hsv, then saving them to HSV Mat object
+		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
+
+
+
+		//showing frame
 		imshow("Kamera", cameraFeed);
+		imshow("Kamera HSV", HSV);
 
-
-
-		//delay 30ms so that screen can refresh.
-		//image will not appear without this waitKey() command
-		waitKey();
+		
+		waitKey(30);
 	}
 }
