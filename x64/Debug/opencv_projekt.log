@@ -1,2 +1,4 @@
 ﻿  BallTracker.cpp
+c:\users\jaruzzzelski\documents\visual studio 2015\projects\opencv_projekt\opencv_projekt\balltracker.cpp(20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\jaruzzzelski\documents\visual studio 2015\projects\opencv_projekt\opencv_projekt\balltracker.cpp(34): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   opencv_projekt.vcxproj -> C:\Users\Jaruzzzelski\Documents\Visual Studio 2015\Projects\opencv_projekt\x64\Debug\opencv_projekt.exe
