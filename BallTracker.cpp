@@ -85,15 +85,15 @@ int main(int argc, char* argv[])
 			
 			if (r > 8) { //if radius of the circle is more than 8
 
-				if (path.size() < 70) {
-					path.push_back(pos);	//adding center point of the enclosing circle to back of our path list
+				if (path.size() < 30) {
+					path.push_back(pos);	//adding center point of the enclosing circle to back of our path list if the list.size is smaller then 30
 				}
 				else {
-					path.pop_front();		//adding center point of the enclosing circle to front of our path list
-					path.push_back(pos);	//adding center point of the enclosing circle to back of our path list
+					path.pop_front();		//deleting point from the front when path.size is larger then 30 
+					path.push_back(pos);	//then adding center point of the enclosing circle to back of our path list
 				}
 
-				vector < Point > pathV;
+				vector < Point > pathV; //Vector for storying path
 				vector < Point2f > approx;
 
 				approxPolyDP(vector<Point2f>(path.begin(), path.end()), approx, 60, false);
@@ -138,15 +138,15 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					//Additional conditions to determin vertices are on similiar height. Point[0] is our mesure
+					//Additional conditions to determin vertices are on similiar height. Point[0] is our measure
 					if (  (itr[4].y > (itr[0].y * 0.8)) && (itr[4].y < (itr[0].y * 1.2))  ) {
 						conditions++;
 					}
 					
-
+					//If all conditions are met we have succesfully detected letter M
 					if (conditions == 5) {
-						cout << "Jest M!!" << endl;
-						imshow("Camera HSV", cameraFeed);
+						
+						imshow("Zdjêcie M", cameraFeed);
 
 						path.clear();
 					}
