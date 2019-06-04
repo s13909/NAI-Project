@@ -32,12 +32,13 @@ int main(int argc, char* argv[])
 	//lists
 	list < Point2f > path; //List for saving path
 
+	//mat objects
+	Mat cameraFeed;	//Matrix to store each frame of the webcam feed
+	Mat HSV;		//Matrix to store HSV version of the image
+	Mat filtered; 	//Matrix to show filtered green ball
+
 	//loop for displaying webcam feeds
 	while (waitKey(30) != 'q') {
-
-		Mat cameraFeed;	//Matrix to store each frame of the webcam feed
-		Mat HSV;		//Matrix to store HSV version of the image
-		Mat filtered; 	//Matrix to show filtered green ball
 
 		//saving frame from cam to mat
 		capture.read(cameraFeed);
@@ -85,6 +86,8 @@ int main(int argc, char* argv[])
 			
 			if (r > 8) { //if radius of the circle is more than 8
 
+				putText(cameraFeed, "Tracking...", Point(0, 50), 2, 1, Scalar(232, 130, 0), 2);
+
 				if (path.size() < 30) {
 					path.push_back(pos);	//adding center point of the enclosing circle to back of our path list if the list.size is smaller then 30
 				}
@@ -93,22 +96,22 @@ int main(int argc, char* argv[])
 					path.push_back(pos);	//then adding center point of the enclosing circle to back of our path list
 				}
 
-				vector < Point > pathV; //Vector for storying path
-				vector < Point2f > approx;
+				vector < Point > pathV; //vector for storying path
+				vector < Point2f > approx;//vector for storying approximated contours
 
-				approxPolyDP(vector<Point2f>(path.begin(), path.end()), approx, 60, false);
+				approxPolyDP(vector<Point2f>(path.begin(), path.end()), approx, 60, false); //approximation, simplification of contours
 
-				// Adding x,y parameters from circle center to path list
+				//adding x,y parameters from circle center to pathV vector
 				for (auto &p : approx) pathV.push_back({ (int)p.x,(int)p.y });
 
-				// Drawing line
-				polylines(cameraFeed, { pathV }, false, Scalar(232, 30, 0), 2);
+				//drawing line
+				polylines(cameraFeed, { pathV }, false, Scalar(232, 30, 0),4 );
 
 				if (pathV.size() >= 5) {
 					vector < Point > itr(pathV.end() - 5, pathV.end());
 					int conditions = 0;
 
-					//Drawing from the left side
+					//drawing from the left side
 					if ((itr[0].x < itr[1].x) && (itr[0].y > itr[1].y)) {
 						conditions++;
 					
@@ -123,7 +126,7 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					//Drawing from the right side
+					//drawing from the right side
 					if ((itr[0].x > itr[1].x) && (itr[0].y > itr[1].y)) {
 						conditions++;
 
@@ -138,14 +141,18 @@ int main(int argc, char* argv[])
 						}
 					}
 
-					//Additional conditions to determin vertices are on similiar height. Point[0] is our measure
+					//additional conditions to determin vertices are on similiar height. Point[0] is our measure
 					if (  (itr[4].y > (itr[0].y * 0.8)) && (itr[4].y < (itr[0].y * 1.2))  ) {
 						conditions++;
 					}
 					
-					//If all conditions are met we have succesfully detected letter M
+					//if all conditions are met we have succesfully detected letter M
 					if (conditions == 5) {
 						
+						Mat splited[3];
+						//split(cameraFeed, splited);
+
+						putText(cameraFeed, "Gesture M detected...", Point(0, 450), 2, 1, Scalar(232, 130, 0), 2);
 						imshow("Zdjêcie M", cameraFeed);
 
 						path.clear();
